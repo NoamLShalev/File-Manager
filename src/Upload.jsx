@@ -29,8 +29,6 @@ class Upload extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    let data = new FormData();
-    data.append("file", this.state.file);
     let info = {
       is_folder: false,
       title: this.state.title,
@@ -53,10 +51,9 @@ class Upload extends Component {
           method: "PATCH",
           headers: {
             "X-Session-Id": "3592484",
-            accept: "application/json",
-            "Content-Type": "multipart/form-data"
+            accept: "application/json"
           },
-          body: data
+          body: this.state.file
         }
       )
         .then(response => {
@@ -64,10 +61,9 @@ class Upload extends Component {
         })
         .then(body => {
           console.log(body);
+          this.setState({ file: undefined, title: "", desc: "" });
         });
     });
-
-    this.setState({ file: undefined, title: "", desc: "" });
   };
 
   render = () => {
