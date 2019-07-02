@@ -1,4 +1,11 @@
-import ReactDOM from 'react-dom'
-import './main.css'
-import React, { Component } from 'react'
-ReactDOM.render(<div>Hello World!</div>, document.getElementById("root"))
+import ReactDOM from "react-dom";
+import "./main.css";
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App.jsx";
+ReactDOM.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
+  document.getElementById("root")
+);
