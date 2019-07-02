@@ -30,10 +30,10 @@ class Upload extends Component {
   handleSubmit = event => {
     event.preventDefault();
     let info = {
-      is_folder: false,
+      is_folder: true,
       title: this.state.title,
       description: this.state.desc,
-      size: this.state.file.size
+      size: 0 // (this would be this.state.file.size if it was an actual file)
     };
     fetch("http://jeremie.eastus.cloudapp.azure.com:9081/fs/files/root", {
       method: "POST",
@@ -43,7 +43,19 @@ class Upload extends Component {
         accept: "application/json"
       },
       body: JSON.stringify(info)
-    }).then(response => {
+    })
+      .then(response => {
+        return response.text();
+      })
+      .then(body => {
+        this.props.updateFiles();
+        this.setState({ file: undefined, title: "", desc: "" });
+      });
+
+    /*
+    if this was an actual file and not a folder this would be the real code after the first fetch request
+
+    .then(response => {
       return fetch(
         "http://jeremie.eastus.cloudapp.azure.com:9081" +
           response.headers.get("location"),
@@ -64,6 +76,7 @@ class Upload extends Component {
           this.setState({ file: undefined, title: "", desc: "" });
         });
     });
+    */
   };
 
   render = () => {
