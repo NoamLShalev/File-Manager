@@ -4,7 +4,9 @@ class Upload extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      file: undefined
+      file: undefined,
+      title: "",
+      desc: ""
     };
   }
 
@@ -17,30 +19,73 @@ class Upload extends Component {
     this.setState({ file: file });
   };
 
+  handleTitle = event => {
+    this.setState({ title: event.target.value });
+  };
+
+  handleDesc = event => {
+    this.setState({ desc: event.target.value });
+  };
+
   handleSubmit = event => {
     event.preventDefault();
     let data = new FormData();
-    console.log(this.state.file.size);
     data.append("file", this.state.file);
-    fetch("http://jeremie.eastus.cloudapp.azure.com:9081/fs/upload/3695163", {
-      method: "PATCH",
+    let info = {
+      is_folder: false,
+      title: this.state.title,
+      description: this.state.desc,
+      size: this.state.file.size
+    };
+    fetch("http://jeremie.eastus.cloudapp.azure.com:9081/fs/files/root", {
+      method: "POST",
       headers: {
-        "X-Session-Id": "3592484"
+        "X-Session-Id": "3592484",
+        "Content-Type": "application/json",
+        accept: "application/json"
       },
-      body: data
-    })
-      .then(header => {
-        return header.text();
-      })
-      .then(body => console.log(body));
+      body: JSON.stringify(info)
+    }).then(response => {
+      return fetch(
+        "http://jeremie.eastus.cloudapp.azure.com:9081" +
+          response.headers.get("location"),
+        {
+          method: "PATCH",
+          headers: {
+            "X-Session-Id": "3592484",
+            accept: "application/json",
+            "Content-Type": "multipart/form-data"
+          },
+          body: data
+        }
+      )
+        .then(response => {
+          return response.text();
+        })
+        .then(body => {
+          console.log(body);
+        });
+    });
 
-    this.setState({ file: undefined });
+    this.setState({ file: undefined, title: "", desc: "" });
   };
 
   render = () => {
     return (
       <form onSubmit={this.handleSubmit}>
         <input type="file" onChange={this.handleFile} />
+        <input
+          type="text"
+          placeholder="Title"
+          onChange={this.handleTitle}
+          value={this.state.title}
+        />
+        <input
+          type="text"
+          placeholder="Description"
+          onChange={this.handleDesc}
+          value={this.state.desc}
+        />
         <input type="submit" value="Upload File" />
       </form>
     );
