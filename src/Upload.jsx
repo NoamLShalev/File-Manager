@@ -5,8 +5,7 @@ class Upload extends Component {
     super(props);
     this.state = {
       file: undefined,
-      title: "",
-      desc: ""
+      fileMessage: "Choose A File"
     };
   }
 
@@ -16,23 +15,18 @@ class Upload extends Component {
 
   handleFile = event => {
     let file = event.target.files[0];
-    this.setState({ file: file });
-  };
-
-  handleTitle = event => {
-    this.setState({ title: event.target.value });
-  };
-
-  handleDesc = event => {
-    this.setState({ desc: event.target.value });
+    let message = file.name;
+    this.setState({ file: file, fileMessage: message });
   };
 
   handleSubmit = event => {
     event.preventDefault();
     let info = {
       is_folder: true,
-      title: this.state.title,
-      description: this.state.desc,
+      metadatas: {
+        folder: "false"
+      },
+      title: this.state.file.name,
       size: 0 // (this would be this.state.file.size if it was an actual file)
     };
     fetch("http://jeremie.eastus.cloudapp.azure.com:9081/fs/files/root", {
@@ -49,7 +43,7 @@ class Upload extends Component {
       })
       .then(body => {
         this.props.updateFiles();
-        this.setState({ file: undefined, title: "", desc: "" });
+        this.setState({ file: undefined, fileMessage: "Choose A File" });
       });
 
     /*
@@ -73,7 +67,7 @@ class Upload extends Component {
         })
         .then(body => {
           console.log(body);
-          this.setState({ file: undefined, title: "", desc: "" });
+          this.setState({ file: undefined });
         });
     });
     */
@@ -82,20 +76,16 @@ class Upload extends Component {
   render = () => {
     return (
       <form onSubmit={this.handleSubmit}>
-        <input type="file" onChange={this.handleFile} />
         <input
-          type="text"
-          placeholder="Title"
-          onChange={this.handleTitle}
-          value={this.state.title}
+          className="custom-file-input"
+          type="file"
+          id="file"
+          onChange={this.handleFile}
         />
-        <input
-          type="text"
-          placeholder="Description"
-          onChange={this.handleDesc}
-          value={this.state.desc}
-        />
-        <input type="submit" value="Upload File" />
+        <label className="file-label" for="file">
+          {this.state.fileMessage}
+        </label>
+        <input className="upload" type="submit" value="Upload" />
       </form>
     );
   };

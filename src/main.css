@@ -1,4 +1,108 @@
 body {
-    background-color: #bbb;
-    margin: 0;
+  margin: 0;
+}
+
+.files-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.file,
+.folder {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 50px;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.delete {
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.file-title-container {
+  display: flex;
+  justify-content: center;
+}
+
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  border-bottom: 1px solid grey;
+  padding-bottom: 20px;
+}
+
+.custom-file-input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.custom-file-input:focus {
+  outline: 0;
+}
+
+.file-label {
+  background-color: blue;
+  color: white;
+  font-size: 25px;
+  border-radius: 5px;
+  padding: 5px 10px 5px 10px;
+}
+
+.upload {
+  border: none;
+  font-size: 25px;
+  background-image: url("/upload.png");
+  background-repeat: no-repeat;
+  background-position: 5% 50%;
+  background-size: 25px;
+  padding: 5px 10px 5px 34px;
+  background-color: green;
+  border-radius: 5px;
+  color: white;
+}
+
+.file-label,
+.upload,
+.add-folder,
+.folder-name {
+  margin: 5px;
+}
+
+.add-folder {
+  border: none;
+  font-size: 25px;
+  background-color: blue;
+  color: white;
+  padding: 5px 10px 5px 10px;
+  border-radius: 5px;
+}
+
+.folder-name {
+  border: none;
+  background-color: grey;
+  font-size: 25px;
+  padding: 5px 10px 5px 15px;
+  border-radius: 20px;
+}
+
+.folder-name:focus,
+.upload:focus,
+.file-label:focus,
+.add-folder:focus {
+  outline: 0;
 }

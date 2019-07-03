@@ -16,6 +16,9 @@ class AddFolder extends Component {
     event.preventDefault();
     let info = {
       is_folder: true,
+      metadatas: {
+        folder: "true"
+      },
       title: this.state.name,
       size: 0
     };
@@ -41,12 +44,13 @@ class AddFolder extends Component {
     return (
       <form onSubmit={this.addFolder}>
         <input
+          className="folder-name"
           type="text"
           placeholder="Folder Name"
           onChange={this.handleName}
           value={this.state.name}
         />
-        <input type="submit" value="Add Folder" />
+        <input className="add-folder" type="submit" value="Add Folder" />
       </form>
     );
   };
