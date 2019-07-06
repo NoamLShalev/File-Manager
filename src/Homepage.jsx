@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Upload from "./Upload.jsx";
-import AddFolder from "./AddFolder.jsx";
 import Folder from "./Folder.jsx";
 import File from "./File.jsx";
+import Navbar from "./Navbar.jsx";
+import Sidebar from "./Sidebar.jsx";
 
 class Homepage extends Component {
   constructor(props) {
@@ -52,6 +52,9 @@ class Homepage extends Component {
       .then(body => {
         let parsed = JSON.parse(body);
         let files = parsed.data;
+        files = files.filter(file => {
+          return file.is_folder;
+        });
         this.setState({ files: files });
       });
   };
@@ -80,30 +83,56 @@ class Homepage extends Component {
       });
   };
 
+  deleteFile = event => {
+    event.preventDefault();
+    let file = event.dataTransfer.getData("text");
+    fetch("http://jeremie.eastus.cloudapp.azure.com:9081/fs/files/" + file, {
+      method: "DELETE",
+      headers: {
+        "X-Session-Id": "3592484",
+        "Content-Type": "application/json",
+        accept: "application/json"
+      }
+    })
+      .then(response => {
+        return response.text();
+      })
+      .then(body => {
+        this.updateFiles();
+      });
+  };
+
   render = () => {
     return (
-      <div>
-        <div className="nav-bar">
-          <Upload updateFiles={this.updateFiles} />
-          <AddFolder updateFiles={this.updateFiles} />
+      <>
+        <Navbar />
+        <div className="main-container">
+          <div className="side-bar">
+            <Sidebar
+              updateFiles={this.updateFiles}
+              deleteFile={this.deleteFile}
+              drop={this.drop}
+              listFolder={this.listFolder}
+            />
+          </div>
+          <div className="files-container">
+            {this.state.files.map(file => {
+              if (file.metadata.folder === "true") {
+                return (
+                  <Folder
+                    key={file.id}
+                    file={file}
+                    drop={this.drop}
+                    listFolder={this.listFolder}
+                  />
+                );
+              } else {
+                return <File key={file.id} file={file} />;
+              }
+            })}
+          </div>
         </div>
-        <div className="files-container">
-          {this.state.files.map(file => {
-            if (file.metadata.folder === "true") {
-              return (
-                <Folder
-                  key={file.id}
-                  file={file}
-                  drop={this.drop}
-                  listFolder={this.listFolder}
-                />
-              );
-            } else {
-              return <File key={file.id} file={file} />;
-            }
-          })}
-        </div>
-      </div>
+      </>
     );
   };
 }

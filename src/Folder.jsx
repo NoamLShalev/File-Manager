@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import DeleteFile from "./DeleteFile.jsx";
 
 class Folder extends Component {
   allowDrop = event => {
@@ -25,7 +24,6 @@ class Folder extends Component {
         <img src="/folder.png" height="100px" />
         <div className="file-title-container">
           <p>{file.title}</p>
-          <DeleteFile id={file.id} updateFiles={this.updateFiles} />
         </div>
       </div>
     );

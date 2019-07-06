@@ -1,10 +1,11 @@
 body {
   margin: 0;
+  height: 100vh;
+  font-family: "Montserrat", sans-serif;
 }
 
-.files-container {
-  display: flex;
-  flex-wrap: wrap;
+#root {
+  height: 100vh;
 }
 
 .file,
@@ -16,17 +17,24 @@ body {
   margin: 50px;
 }
 
+h2 {
+  color: #515151;
+  margin-bottom: 5px;
+}
+
 p {
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: center;
+  color: #606060;
 }
 
-.delete {
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
+.files-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
 
 .file-title-container {
@@ -38,7 +46,7 @@ p {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
-  border-bottom: 1px solid grey;
+  border-bottom: 1px solid #dcdcdc;
   padding-bottom: 20px;
 }
 
@@ -56,7 +64,7 @@ p {
 }
 
 .file-label {
-  background-color: blue;
+  background-color: #6fa8d5;
   color: white;
   font-size: 25px;
   border-radius: 5px;
@@ -71,7 +79,7 @@ p {
   background-position: 5% 50%;
   background-size: 25px;
   padding: 5px 10px 5px 34px;
-  background-color: green;
+  background-color: #8bc886;
   border-radius: 5px;
   color: white;
 }
@@ -81,12 +89,13 @@ p {
 .add-folder,
 .folder-name {
   margin: 5px;
+  font-family: "Montserrat", sans-serif;
 }
 
 .add-folder {
   border: none;
   font-size: 25px;
-  background-color: blue;
+  background-color: #6fa8d5;
   color: white;
   padding: 5px 10px 5px 10px;
   border-radius: 5px;
@@ -94,10 +103,11 @@ p {
 
 .folder-name {
   border: none;
-  background-color: grey;
-  font-size: 25px;
-  padding: 5px 10px 5px 15px;
-  border-radius: 20px;
+  background-color: #dcdcdc;
+  font-size: 20px;
+  padding: 10px 10px 5px 10px;
+  border-radius: 5px;
+  width: 130px;
 }
 
 .folder-name:focus,
@@ -105,4 +115,105 @@ p {
 .file-label:focus,
 .add-folder:focus {
   outline: 0;
+}
+
+.main-container {
+  display: flex;
+  height: 100%;
+}
+
+.side-bar {
+  border-right: 1px solid #dcdcdc;
+}
+
+.trash {
+  position: fixed;
+  bottom: 0;
+}
+
+form {
+  margin: 10px;
+  margin-bottom: 30px;
+}
+
+.logo {
+  display: flex;
+  margin-left: 20px;
+}
+
+.logo-title {
+  margin-top: 18px;
+  font-size: 20px;
+  margin-left: 5px;
+}
+
+.instructions {
+  border: none;
+  margin-right: 10px;
+  font-size: 15px;
+  color: #606060;
+}
+
+.instructions:hover {
+  text-decoration: underline;
+}
+
+.instructions:focus {
+  outline: 0;
+}
+
+.popup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 20;
+}
+
+.inner-popup {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  left: 25%;
+  right: 25%;
+  top: 25%;
+  bottom: 25%;
+  margin: auto;
+  background: white;
+  max-width: 500px;
+  min-width: 500px;
+  max-height: 300px;
+  min-height: 300px;
+  z-index: 20;
+}
+
+.close-popup {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  font-size: 15px;
+}
+
+.close-popup:focus {
+  outline: 0;
+}
+
+.instructions-p-container {
+  margin: 0 80px 0 80px;
+}
+
+.instructions-p {
+  padding: 10px;
+}
+
+.form-container {
+  margin-top: 50px;
 }
